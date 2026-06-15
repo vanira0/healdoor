@@ -7,6 +7,13 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Services } from './collections/Services'
+import { Leads } from './collections/Leads'
+import { Pages } from './collections/Pages'
+import { Blogs } from './collections/Blogs'
+import { Testimonials } from './collections/Testimonials'
+import { FAQs } from './collections/FAQs'
+import { s3Storage } from '@payloadcms/storage-s3'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -18,7 +25,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Services, Leads, Pages, Blogs, Testimonials, FAQs],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -33,5 +40,23 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    ...(process.env.AWS_S3_BUCKET
+      ? [
+          s3Storage({
+            collections: {
+              media: true,
+            },
+            bucket: process.env.AWS_S3_BUCKET,
+            config: {
+              credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+              },
+              region: process.env.AWS_REGION,
+            },
+          }),
+        ]
+      : []),
+  ],
 })

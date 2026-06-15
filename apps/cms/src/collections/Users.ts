@@ -33,7 +33,7 @@ export const Users: CollectionConfig = {
           value: 'admin',
         },
         {
-          label: 'Editor',
+          label: 'Content Editor',
           value: 'editor',
         },
         {
