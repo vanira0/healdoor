@@ -24,6 +24,16 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      actions: ['./components/LogoutButton'],
+      logout: {
+        Button: './components/NullComponent',
+      },
+      graphics: {
+        Logo: './components/Logo',
+        Icon: './components/Icon',
+      },
+    },
   },
   collections: [Users, Media, Services, Leads, Pages, Blogs, Testimonials, FAQs],
   editor: lexicalEditor(),
