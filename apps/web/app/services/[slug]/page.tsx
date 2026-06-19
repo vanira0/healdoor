@@ -49,9 +49,11 @@ export default async function ServiceDetailPage({ params }: Props) {
     // Extract simple text from Lexical format for the answer
     let answerText = ''
     if (faq.answer?.root?.children) {
-      faq.answer.root.children.forEach((node: { children?: { text?: string }[] }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      faq.answer.root.children.forEach((node: any) => {
         if (node.children) {
-          node.children.forEach((child: { text?: string }) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          node.children.forEach((child: any) => {
             if (child.text) answerText += child.text + ' '
           })
         }

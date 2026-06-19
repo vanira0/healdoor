@@ -1,4 +1,4 @@
-import type { Page, Blog, Service, PayloadResponse } from '@healdoor/types'
+import type { Page, Blog, Service, Product, Testimonial, HomepageSettings, PayloadResponse } from '@healdoor/types'
 
 const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3001'
 const API_KEY = process.env.PAYLOAD_API_KEY || ''
@@ -62,3 +62,37 @@ export async function getBlogBySlug(slug: string): Promise<Blog | null> {
   )
   return data.docs[0] ?? null
 }
+
+// Homepage Settings (Global)
+export async function getHomepageSettings(): Promise<HomepageSettings> {
+  return fetchPayload<HomepageSettings>(`/globals/homepage-settings?depth=2`)
+}
+
+// Products
+export async function getProducts(params?: {
+  page?: number; limit?: number; category?: string
+}): Promise<PayloadResponse<Product>> {
+  const { page = 1, limit = 50, category } = params ?? {}
+  let query = `/products?depth=1&limit=${limit}&page=${page}&sort=sortOrder`
+  if (category) query += `&where[category][equals]=${category}`
+  return fetchPayload<PayloadResponse<Product>>(query)
+}
+
+export async function getFeaturedProducts(): Promise<Product[]> {
+  const data = await fetchPayload<PayloadResponse<Product>>(
+    `/products?where[isFeatured][equals]=true&depth=1&limit=20&sort=sortOrder`
+  )
+  return data.docs
+}
+
+// Testimonials
+export async function getTestimonials(params?: {
+  type?: 'video' | 'written'; limit?: number
+}): Promise<Testimonial[]> {
+  const { type, limit = 20 } = params ?? {}
+  let query = `/testimonials?depth=1&limit=${limit}`
+  if (type) query += `&where[type][equals]=${type}`
+  const data = await fetchPayload<PayloadResponse<Testimonial>>(query)
+  return data.docs
+}
+

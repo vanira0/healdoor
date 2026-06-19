@@ -7,6 +7,9 @@ import {
   FAQBlock,
   TestimonialBlock,
   RichTextBlock,
+  ProductGridBlock,
+  StepsBlock,
+  DoctorGridBlock,
 } from '@/components/blocks'
 
 // Map block types to their React components
@@ -18,6 +21,9 @@ const blockComponents: Record<string, React.ComponentType<any>> = {
   faq: FAQBlock,
   testimonial: TestimonialBlock,
   richText: RichTextBlock,
+  productGrid: ProductGridBlock,
+  steps: StepsBlock,
+  doctorGrid: DoctorGridBlock,
 }
 
 interface PageRendererProps {

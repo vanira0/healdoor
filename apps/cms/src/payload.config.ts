@@ -13,6 +13,8 @@ import { Pages } from './collections/Pages'
 import { Blogs } from './collections/Blogs'
 import { Testimonials } from './collections/Testimonials'
 import { FAQs } from './collections/FAQs'
+import { Products } from './collections/Products'
+import { HomepageSettings } from './globals'
 import { s3Storage } from '@payloadcms/storage-s3'
 
 const filename = fileURLToPath(import.meta.url)
@@ -35,7 +37,8 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Media, Services, Leads, Pages, Blogs, Testimonials, FAQs],
+  collections: [Users, Media, Services, Leads, Pages, Blogs, Testimonials, FAQs, Products],
+  globals: [HomepageSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

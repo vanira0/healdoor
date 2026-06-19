@@ -23,6 +23,24 @@ export interface Service {
   createdAt: string
 }
 
+// Product
+export interface Product {
+  id: number
+  name: string
+  slug: string
+  image?: MediaItem | number | null
+  rentPrice?: number | null
+  buyPrice?: number | null
+  rating?: number | null
+  category?: 'oxygen' | 'respiratory' | 'icu' | 'mobility' | 'monitoring' | 'other' | null
+  isFeatured?: boolean
+  isAvailableForRent?: boolean
+  isAvailableForPurchase?: boolean
+  sortOrder?: number | null
+  updatedAt: string
+  createdAt: string
+}
+
 // Page
 export interface Page {
   id: number
@@ -65,13 +83,153 @@ export interface FAQ {
 // Testimonial
 export interface Testimonial {
   id: number
+  type: 'written' | 'video'
   name: string
+  handle?: string | null
   designation?: string | null
   organization?: string | null
   image?: MediaItem | number | null
+  videoFile?: MediaItem | number | null
   rating?: number | null
   testimonial: string
+  timeAgo?: string | null
   social_media_link?: string | null
+  instagramLink?: string | null
+  isVerified?: boolean
+}
+
+// ── Homepage Settings Global ──
+
+export interface HeroSlide {
+  badge?: string | null
+  heading: string
+  bullets?: { text: string; id?: string | null }[]
+  ctaText?: string | null
+  ctaHref?: string | null
+  image?: MediaItem | number | null
+  qualityBadgeLine1?: string | null
+  qualityBadgeLine2?: string | null
+  id?: string | null
+}
+
+export interface TrustBadgeItem {
+  icon?: string | null
+  title: string
+  description?: string | null
+  id?: string | null
+}
+
+export interface ProblemItem {
+  icon?: string | null
+  title: string
+  id?: string | null
+}
+
+export interface DoctorProfile {
+  name: string
+  qualification?: string | null
+  experience?: string | null
+  badge?: string | null
+  image?: MediaItem | number | null
+  id?: string | null
+}
+
+export interface BeforeAfterStory {
+  patientName: string
+  age?: number | null
+  condition?: string | null
+  quote?: string | null
+  beforeImage?: MediaItem | number | null
+  afterImage?: MediaItem | number | null
+  patientImage?: MediaItem | number | null
+  fullStoryLink?: string | null
+  id?: string | null
+}
+
+export interface TeamMember {
+  name: string
+  role?: string | null
+  image?: MediaItem | number | null
+  badges?: { label: string; id?: string | null }[]
+  education?: { text: string; id?: string | null }[]
+  experience?: { text: string; id?: string | null }[]
+  id?: string | null
+}
+
+export interface HowItWorksStep {
+  number: string
+  icon?: string | null
+  title: string
+  description?: string | null
+  id?: string | null
+}
+
+export interface ServiceCategoryItem {
+  title: string
+  subtitle?: string | null
+  image?: MediaItem | number | null
+  href: string
+  id?: string | null
+}
+
+export interface HomepageSettings {
+  heroSlides?: HeroSlide[]
+  healthcareIntro?: {
+    heading?: string | null
+    description?: string | null
+  }
+  serviceCategories?: ServiceCategoryItem[]
+  trustBadges?: TrustBadgeItem[]
+  problemsSection?: {
+    heading?: string | null
+    description?: string | null
+    problems?: ProblemItem[]
+  }
+  highestSellingSection?: {
+    heading?: string | null
+    description?: string | null
+  }
+  rentOrBuySection?: {
+    heading?: string | null
+    description?: string | null
+    rentBenefits?: { text: string; id?: string | null }[]
+    buyBenefits?: { text: string; id?: string | null }[]
+  }
+  expertDoctorsSection?: {
+    heading?: string | null
+    description?: string | null
+    doctors?: DoctorProfile[]
+  }
+  testimonialsSection?: {
+    heading?: string | null
+    description?: string | null
+  }
+  beforeAfterSection?: {
+    heading?: string | null
+    description?: string | null
+    stories?: BeforeAfterStory[]
+  }
+  ourStorySection?: {
+    heading?: string | null
+    narrative?: LexicalContent | null
+    team?: TeamMember[]
+  }
+  blogsSection?: {
+    heading?: string | null
+    description?: string | null
+  }
+  howItWorksSection?: {
+    heading?: string | null
+    description?: string | null
+    steps?: HowItWorksStep[]
+  }
+  locationSection?: {
+    heading?: string | null
+    companyName?: string | null
+    address?: string | null
+    mapEmbedUrl?: string | null
+    getDirectionsLink?: string | null
+  }
 }
 
 // Shared
@@ -104,3 +262,4 @@ export interface PayloadResponse<T> {
   hasPrevPage: boolean
   pagingCounter: number
 }
+

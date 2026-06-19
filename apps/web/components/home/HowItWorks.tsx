@@ -1,52 +1,74 @@
 import { Phone, MessageSquare, Truck, HeartHandshake } from "lucide-react";
+import type { HowItWorksStep } from "@healdoor/types";
 
-const steps = [
+const IconMap: Record<string, React.ElementType> = {
+  Phone,
+  MessageSquare,
+  Truck,
+  HeartHandshake,
+};
+
+const defaultSteps: HowItWorksStep[] = [
   {
     number: "01",
     title: "Contact Us",
     description: "Call, WhatsApp, or book online",
-    icon: Phone,
+    icon: "Phone",
   },
   {
     number: "02",
     title: "Confirm Service",
     description: "We understand your requirements",
-    icon: MessageSquare,
+    icon: "MessageSquare",
   },
   {
     number: "03",
     title: "Professional Arrives",
     description: "Our expert comes to your home",
-    icon: Truck,
+    icon: "Truck",
   },
   {
     number: "04",
     title: "Receive Care",
     description: "Safe and professional treatment",
-    icon: HeartHandshake,
+    icon: "HeartHandshake",
   },
 ];
 
-export function HowItWorks() {
+interface HowItWorksProps {
+  heading?: string | null;
+  description?: string | null;
+  steps?: HowItWorksStep[];
+}
+
+export function HowItWorks({
+  heading = "How It Works",
+  description = "Simple 4-step process to get care at home",
+  steps,
+}: HowItWorksProps) {
+  const data = steps && steps.length > 0 ? steps : defaultSteps;
+
   return (
     <section className="section-padding bg-white">
       <div className="container">
         <div className="text-center mb-12">
           <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-text-dark mb-3">
-            How It Works
+            {heading}
           </h2>
           <p className="text-base text-text-body max-w-xl mx-auto">
-            Simple 4-step process to get care at home
+            {description}
           </p>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-          {steps.map((step, index) => {
-            const Icon = step.icon;
+          {data.map((step, index) => {
+            const iconName = step.icon || "HeartHandshake";
+            const Icon = IconMap[iconName] || HeartHandshake;
+
             return (
-              <div key={step.number} className="relative text-center group">
+              <div key={step.id || step.number} className="relative text-center group">
                 {/* Connector line (not on last) */}
-                {index < steps.length - 1 && (
+                {index < data.length - 1 && (
                   <div className="hidden lg:block absolute top-10 left-[60%] w-[calc(100%-20%)] h-[2px] border-t-2 border-dashed border-teal/30" />
                 )}
 

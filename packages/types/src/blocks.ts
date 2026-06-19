@@ -69,6 +69,44 @@ export interface RichTextBlockData {
   content?: LexicalContent | null
 }
 
+export interface ProductGridBlockData {
+  blockType: 'productGrid'
+  id?: string
+  sectionTitle?: string | null
+  sectionDescription?: string | null
+  displayMode?: 'rent' | 'buy' | 'both'
+  products?: (number | { id: number; name: string; slug: string; image?: MediaItem | number | null; rentPrice?: number | null; buyPrice?: number | null; rating?: number | null })[]
+}
+
+export interface StepsBlockData {
+  blockType: 'steps'
+  id?: string
+  sectionTitle?: string | null
+  sectionDescription?: string | null
+  steps?: {
+    number: string
+    icon?: string | null
+    title: string
+    description?: string | null
+    id?: string | null
+  }[]
+}
+
+export interface DoctorGridBlockData {
+  blockType: 'doctorGrid'
+  id?: string
+  sectionTitle?: string | null
+  sectionDescription?: string | null
+  doctors?: {
+    name: string
+    qualification?: string | null
+    experience?: string | null
+    badge?: string | null
+    image?: MediaItem | number | null
+    id?: string | null
+  }[]
+}
+
 export type LayoutBlock =
   | HeroBlockData
   | CTABlockData
@@ -76,3 +114,7 @@ export type LayoutBlock =
   | FAQBlockData
   | TestimonialBlockData
   | RichTextBlockData
+  | ProductGridBlockData
+  | StepsBlockData
+  | DoctorGridBlockData
+

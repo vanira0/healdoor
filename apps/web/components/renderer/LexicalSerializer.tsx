@@ -7,6 +7,8 @@ interface LexicalNode {
   format?: number | string
   style?: string
   url?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fields?: any
   children?: LexicalNode[]
   [k: string]: unknown
 }
@@ -68,14 +70,32 @@ function LexicalNodeRenderer({ node }: { node: LexicalNode }) {
       )
     case 'list':
       const ListTag = node.listType === 'number' ? 'ol' : 'ul'
+      const isChecklist = node.listType === 'check'
       return (
-        <ListTag>
+        <ListTag className={isChecklist ? 'list-none pl-0' : ''}>
           {node.children?.map((child, i) => (
-            <LexicalNodeRenderer key={i} node={child} />
+            <LexicalNodeRenderer key={i} node={{ ...child, isChecklist }} />
           ))}
         </ListTag>
       )
     case 'listitem':
+      if (node.isChecklist || node.checked !== undefined) {
+        return (
+          <li className="flex items-start gap-3 my-2">
+            <input 
+              type="checkbox" 
+              checked={!!node.checked} 
+              readOnly 
+              className="mt-1.5 w-4 h-4 rounded border-gray-300 text-teal focus:ring-teal flex-shrink-0"
+            />
+            <span className="flex-1">
+              {node.children?.map((child, i) => (
+                <LexicalNodeRenderer key={i} node={child} />
+              ))}
+            </span>
+          </li>
+        )
+      }
       return (
         <li>
           {node.children?.map((child, i) => (
@@ -84,12 +104,44 @@ function LexicalNodeRenderer({ node }: { node: LexicalNode }) {
         </li>
       )
     case 'link':
+    case 'autolink':
+      let linkHref = node.fields?.url || node.url || '#'
+      if (node.fields?.linkType === 'internal' && node.fields?.doc?.value) {
+        const docValue = node.fields.doc.value
+        const relationTo = node.fields.doc.relationTo
+        if (relationTo === 'blogs') linkHref = `/blogs/${docValue.slug}`
+        else if (relationTo === 'services') linkHref = `/services/${docValue.slug}`
+        else if (relationTo === 'pages') linkHref = `/${docValue.slug}`
+      }
       return (
-        <a href={node.fields?.url || node.url} target={node.fields?.newTab ? '_blank' : '_self'} rel={node.fields?.newTab ? 'noopener noreferrer' : ''}>
+        <a href={linkHref} target={node.fields?.newTab ? '_blank' : '_self'} rel={node.fields?.newTab ? 'noopener noreferrer' : ''}>
           {node.children?.map((child, i) => (
             <LexicalNodeRenderer key={i} node={child} />
           ))}
         </a>
+      )
+    case 'relationship':
+      if (!node.value || typeof node.value !== 'object') return null
+      const relTo = node.relationTo as string
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const relData = node.value as any
+      
+      let relHref = '#'
+      if (relTo === 'blogs') relHref = `/blogs/${relData.slug}`
+      else if (relTo === 'services') relHref = `/services/${relData.slug}`
+      else if (relTo === 'pages') relHref = `/${relData.slug}`
+      else relHref = `/${relData.slug || ''}`
+      
+      return (
+        <div className="my-8 p-6 border border-border/60 rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors group">
+          <a href={relHref} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 no-underline !text-text-dark group-hover:!text-teal">
+             <div className="flex-1">
+                <p className="!m-0 !font-bold !text-lg">{relData.title || relData.name || 'Related Content'}</p>
+                {relData.category && <p className="!m-0 mt-2 text-sm text-text-muted uppercase tracking-wider font-semibold !text-teal">{relData.category}</p>}
+             </div>
+             <span className="!text-teal text-sm font-medium whitespace-nowrap bg-white px-4 py-2 rounded-full border border-border/50 group-hover:border-teal/30">Read &rarr;</span>
+          </a>
+        </div>
       )
     case 'quote':
       return (

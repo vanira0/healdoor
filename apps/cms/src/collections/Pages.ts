@@ -6,6 +6,9 @@ import {
   FAQBlock,
   TestimonialBlock,
   RichTextBlock,
+  ProductGridBlock,
+  StepsBlock,
+  DoctorGridBlock,
 } from '../blocks'
 
 export const Pages: CollectionConfig = {
@@ -49,6 +52,9 @@ export const Pages: CollectionConfig = {
         FAQBlock,
         TestimonialBlock,
         RichTextBlock,
+        ProductGridBlock,
+        StepsBlock,
+        DoctorGridBlock,
       ],
     },
     {

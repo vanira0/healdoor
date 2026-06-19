@@ -75,6 +75,7 @@ export interface Config {
     blogs: Blog;
     testimonials: Testimonial;
     faqs: Faq;
+    products: Product;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +91,7 @@ export interface Config {
     blogs: BlogsSelect<false> | BlogsSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -99,8 +101,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'homepage-settings': HomepageSetting;
+  };
+  globalsSelect: {
+    'homepage-settings': HomepageSettingsSelect<false> | HomepageSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -383,12 +389,95 @@ export interface Page {
             blockName?: string | null;
             blockType: 'richText';
           }
+        | {
+            sectionTitle?: string | null;
+            sectionDescription?: string | null;
+            displayMode?: ('rent' | 'buy' | 'both') | null;
+            products?: (number | Product)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'productGrid';
+          }
+        | {
+            sectionTitle?: string | null;
+            sectionDescription?: string | null;
+            steps?:
+              | {
+                  /**
+                   * Step number (e.g. "01")
+                   */
+                  number: string;
+                  /**
+                   * Lucide icon name (e.g. Phone, MessageSquare)
+                   */
+                  icon?: string | null;
+                  title: string;
+                  description?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'steps';
+          }
+        | {
+            sectionTitle?: string | null;
+            sectionDescription?: string | null;
+            doctors?:
+              | {
+                  name: string;
+                  qualification?: string | null;
+                  experience?: string | null;
+                  /**
+                   * e.g. "FOUNDER" — leave empty for no badge
+                   */
+                  badge?: string | null;
+                  image?: (number | null) | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'doctorGrid';
+          }
       )[]
     | null;
   seo?: {
     meta_title?: string | null;
     meta_description?: string | null;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  name: string;
+  slug: string;
+  image?: (number | null) | Media;
+  /**
+   * Monthly rent price in ₹ (e.g. 1499)
+   */
+  rentPrice?: number | null;
+  /**
+   * Purchase price in ₹ (e.g. 45000)
+   */
+  buyPrice?: number | null;
+  rating?: number | null;
+  category?: ('oxygen' | 'respiratory' | 'icu' | 'mobility' | 'monitoring' | 'other') | null;
+  /**
+   * Show in "Highest Selling Products" section
+   */
+  isFeatured?: boolean | null;
+  isAvailableForRent?: boolean | null;
+  isAvailableForPurchase?: boolean | null;
+  /**
+   * Lower numbers appear first
+   */
+  sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -438,16 +527,40 @@ export interface Blog {
  */
 export interface Testimonial {
   id: number;
+  type: 'written' | 'video';
   name: string;
+  /**
+   * Social media handle (e.g. @neha.pandey)
+   */
+  handle?: string | null;
   designation?: string | null;
   organization?: string | null;
+  /**
+   * Profile photo or video thumbnail
+   */
   image?: (number | null) | Media;
+  /**
+   * MP4 video file for video testimonials
+   */
+  videoFile?: (number | null) | Media;
   rating?: number | null;
   testimonial: string;
+  /**
+   * Display time (e.g. "2 weeks ago", "1 month ago")
+   */
+  timeAgo?: string | null;
   /**
    * Link to a social media profile or post (e.g., Instagram Reel)
    */
   social_media_link?: string | null;
+  /**
+   * Instagram post/reel URL
+   */
+  instagramLink?: string | null;
+  /**
+   * Show verified badge next to handle
+   */
+  isVerified?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -506,6 +619,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'faqs';
         value: number | Faq;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -734,6 +851,51 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        productGrid?:
+          | T
+          | {
+              sectionTitle?: T;
+              sectionDescription?: T;
+              displayMode?: T;
+              products?: T;
+              id?: T;
+              blockName?: T;
+            };
+        steps?:
+          | T
+          | {
+              sectionTitle?: T;
+              sectionDescription?: T;
+              steps?:
+                | T
+                | {
+                    number?: T;
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        doctorGrid?:
+          | T
+          | {
+              sectionTitle?: T;
+              sectionDescription?: T;
+              doctors?:
+                | T
+                | {
+                    name?: T;
+                    qualification?: T;
+                    experience?: T;
+                    badge?: T;
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
       };
   seo?:
     | T
@@ -776,13 +938,19 @@ export interface BlogsSelect<T extends boolean = true> {
  * via the `definition` "testimonials_select".
  */
 export interface TestimonialsSelect<T extends boolean = true> {
+  type?: T;
   name?: T;
+  handle?: T;
   designation?: T;
   organization?: T;
   image?: T;
+  videoFile?: T;
   rating?: T;
   testimonial?: T;
+  timeAgo?: T;
   social_media_link?: T;
+  instagramLink?: T;
+  isVerified?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -794,6 +962,25 @@ export interface FaqsSelect<T extends boolean = true> {
   question?: T;
   answer?: T;
   category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  image?: T;
+  rentPrice?: T;
+  buyPrice?: T;
+  rating?: T;
+  category?: T;
+  isFeatured?: T;
+  isAvailableForRent?: T;
+  isAvailableForPurchase?: T;
+  sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -836,6 +1023,414 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-settings".
+ */
+export interface HomepageSetting {
+  id: number;
+  heroSlides?:
+    | {
+        /**
+         * e.g. "LIMITED PERIOD OFFER"
+         */
+        badge?: string | null;
+        heading: string;
+        bullets?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        ctaText?: string | null;
+        ctaHref?: string | null;
+        image?: (number | null) | Media;
+        /**
+         * Top line of quality badge (e.g. "BEST QUALITY")
+         */
+        qualityBadgeLine1?: string | null;
+        /**
+         * Bottom line of quality badge (e.g. "BEST PRICE")
+         */
+        qualityBadgeLine2?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  healthcareIntro?: {
+    heading?: string | null;
+    description?: string | null;
+  };
+  serviceCategories?:
+    | {
+        title: string;
+        /**
+         * e.g. "X-ray, ECG, Blood Investigations"
+         */
+        subtitle?: string | null;
+        image?: (number | null) | Media;
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  trustBadges?:
+    | {
+        /**
+         * Lucide icon name (e.g. UserCheck, Users, Headphones, ShieldCheck)
+         */
+        icon?: string | null;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  problemsSection?: {
+    heading?: string | null;
+    description?: string | null;
+    problems?:
+      | {
+          /**
+           * Lucide icon name (e.g. Wind, Building2, HeartPulse, Activity)
+           */
+          icon?: string | null;
+          title: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  highestSellingSection?: {
+    heading?: string | null;
+    description?: string | null;
+  };
+  rentOrBuySection?: {
+    heading?: string | null;
+    description?: string | null;
+    rentBenefits?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    buyBenefits?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  expertDoctorsSection?: {
+    heading?: string | null;
+    description?: string | null;
+    doctors?:
+      | {
+          name: string;
+          qualification?: string | null;
+          experience?: string | null;
+          /**
+           * e.g. "FOUNDER" — leave empty for no badge
+           */
+          badge?: string | null;
+          image?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  testimonialsSection?: {
+    heading?: string | null;
+    description?: string | null;
+  };
+  beforeAfterSection?: {
+    heading?: string | null;
+    description?: string | null;
+    stories?:
+      | {
+          patientName: string;
+          age?: number | null;
+          condition?: string | null;
+          quote?: string | null;
+          beforeImage?: (number | null) | Media;
+          afterImage?: (number | null) | Media;
+          /**
+           * Patient portrait photo
+           */
+          patientImage?: (number | null) | Media;
+          fullStoryLink?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  ourStorySection?: {
+    heading?: string | null;
+    /**
+     * The story paragraphs on the left side
+     */
+    narrative?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    team?:
+      | {
+          name: string;
+          role?: string | null;
+          image?: (number | null) | Media;
+          badges?:
+            | {
+                label: string;
+                id?: string | null;
+              }[]
+            | null;
+          education?:
+            | {
+                text: string;
+                id?: string | null;
+              }[]
+            | null;
+          experience?:
+            | {
+                text: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  blogsSection?: {
+    heading?: string | null;
+    description?: string | null;
+  };
+  howItWorksSection?: {
+    heading?: string | null;
+    description?: string | null;
+    steps?:
+      | {
+          /**
+           * e.g. "01"
+           */
+          number: string;
+          /**
+           * Lucide icon name (e.g. Phone, MessageSquare, Truck, HeartHandshake)
+           */
+          icon?: string | null;
+          title: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  locationSection?: {
+    heading?: string | null;
+    companyName?: string | null;
+    address?: string | null;
+    /**
+     * Google Maps embed URL
+     */
+    mapEmbedUrl?: string | null;
+    getDirectionsLink?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-settings_select".
+ */
+export interface HomepageSettingsSelect<T extends boolean = true> {
+  heroSlides?:
+    | T
+    | {
+        badge?: T;
+        heading?: T;
+        bullets?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        ctaText?: T;
+        ctaHref?: T;
+        image?: T;
+        qualityBadgeLine1?: T;
+        qualityBadgeLine2?: T;
+        id?: T;
+      };
+  healthcareIntro?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
+  serviceCategories?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        image?: T;
+        href?: T;
+        id?: T;
+      };
+  trustBadges?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  problemsSection?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        problems?:
+          | T
+          | {
+              icon?: T;
+              title?: T;
+              id?: T;
+            };
+      };
+  highestSellingSection?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
+  rentOrBuySection?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        rentBenefits?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        buyBenefits?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  expertDoctorsSection?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        doctors?:
+          | T
+          | {
+              name?: T;
+              qualification?: T;
+              experience?: T;
+              badge?: T;
+              image?: T;
+              id?: T;
+            };
+      };
+  testimonialsSection?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
+  beforeAfterSection?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        stories?:
+          | T
+          | {
+              patientName?: T;
+              age?: T;
+              condition?: T;
+              quote?: T;
+              beforeImage?: T;
+              afterImage?: T;
+              patientImage?: T;
+              fullStoryLink?: T;
+              id?: T;
+            };
+      };
+  ourStorySection?:
+    | T
+    | {
+        heading?: T;
+        narrative?: T;
+        team?:
+          | T
+          | {
+              name?: T;
+              role?: T;
+              image?: T;
+              badges?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
+              education?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              experience?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
+  blogsSection?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
+  howItWorksSection?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        steps?:
+          | T
+          | {
+              number?: T;
+              icon?: T;
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+      };
+  locationSection?:
+    | T
+    | {
+        heading?: T;
+        companyName?: T;
+        address?: T;
+        mapEmbedUrl?: T;
+        getDirectionsLink?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
