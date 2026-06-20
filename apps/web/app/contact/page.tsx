@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { Navbar } from '@/components/Navbar'
+import { ServiceNavTabs } from '@/components/ServiceNavTabs';
 import { Footer } from '@/components/Footer'
 import { PageHeader } from '@/components/PageHeader'
 import { EnquiryForm } from '@/components/EnquiryForm'
@@ -14,6 +15,7 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
+      <ServiceNavTabs />
       <main className="flex-1">
         <PageHeader 
           title="Contact Us" 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getPageBySlug } from '@healdoor/utils'
 import { Navbar } from '@/components/Navbar'
+import { ServiceNavTabs } from '@/components/ServiceNavTabs';
 import { Footer } from '@/components/Footer'
 import { PageRenderer } from '@/components/renderer/PageRenderer'
 import { PageHeader } from '@/components/PageHeader'
@@ -15,6 +16,7 @@ export default async function EULAPage() {
   return (
     <>
       <Navbar />
+      <ServiceNavTabs />
       <main className="flex-1">
         {page ? (
           <PageRenderer blocks={page.page_builder ?? []} />

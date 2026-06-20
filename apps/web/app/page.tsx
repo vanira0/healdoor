@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { ServiceNavTabs } from '@/components/ServiceNavTabs';
 import { Footer } from "@/components/Footer";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { HealthcareIntro } from "@/components/home/HealthcareIntro";
@@ -56,6 +57,7 @@ export default async function Home() {
   return (
     <>
       <Navbar />
+      <ServiceNavTabs />
       <main className="flex-1">
         <HeroCarousel slides={homepage?.heroSlides} />
         <HealthcareIntro

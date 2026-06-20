@@ -4,6 +4,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getBlogBySlug, getBlogs, getMediaUrl } from '@healdoor/utils'
 import { Navbar } from '@/components/Navbar'
+import { ServiceNavTabs } from '@/components/ServiceNavTabs';
 import { Footer } from '@/components/Footer'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { LexicalSerializer } from '@/components/renderer/LexicalSerializer'
@@ -63,6 +64,7 @@ export default async function BlogDetailPage({ params }: Props) {
   return (
     <>
       <Navbar />
+      <ServiceNavTabs />
       <main className="flex-1 bg-white">
         {/* Article Header */}
         <div className="container max-w-4xl pt-32 pb-10">

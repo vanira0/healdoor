@@ -4,6 +4,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getServiceBySlug, getServices, getMediaUrl } from '@healdoor/utils'
 import { Navbar } from '@/components/Navbar'
+import { ServiceNavTabs } from '@/components/ServiceNavTabs';
 import { Footer } from '@/components/Footer'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { LexicalSerializer } from '@/components/renderer/LexicalSerializer'
@@ -70,6 +71,7 @@ export default async function ServiceDetailPage({ params }: Props) {
   return (
     <>
       <Navbar />
+      <ServiceNavTabs />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-slate-900">

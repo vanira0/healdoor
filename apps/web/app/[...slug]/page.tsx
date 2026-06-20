@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getPageBySlug, getAllPageSlugs } from '@healdoor/utils'
 import { Navbar } from '@/components/Navbar'
+import { ServiceNavTabs } from '@/components/ServiceNavTabs';
 import { Footer } from '@/components/Footer'
 import { PageRenderer } from '@/components/renderer/PageRenderer'
 
@@ -41,6 +42,7 @@ export default async function DynamicPage({ params }: Props) {
   return (
     <>
       <Navbar />
+      <ServiceNavTabs />
       <main className="flex-1">
         <PageRenderer blocks={page.page_builder ?? []} />
       </main>

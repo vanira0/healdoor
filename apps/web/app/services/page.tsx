@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Search } from 'lucide-react'
 import { Navbar } from '@/components/Navbar'
+import { ServiceNavTabs } from '@/components/ServiceNavTabs';
 import { Footer } from '@/components/Footer'
 import { PageHeader } from '@/components/PageHeader'
 import { getServices, getMediaUrl } from '@healdoor/utils'
@@ -18,6 +19,7 @@ export default async function ServicesPage() {
   return (
     <>
       <Navbar />
+      <ServiceNavTabs />
       <main className="flex-1">
         <PageHeader 
           title="Our Services" 
