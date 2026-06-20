@@ -2,6 +2,9 @@ import type { CollectionConfig } from 'payload'
 
 export const Leads: CollectionConfig = {
   slug: 'leads',
+  access: {
+    create: () => true,
+  },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'mobile', 'service_slug_history', 'createdAt'],
