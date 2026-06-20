@@ -36,7 +36,7 @@ const physioServices = [
 
 export function PhysioServicesGrid() {
   return (
-    <section className="section-padding bg-white">
+    <section className="section-padding-sm bg-white">
       <div className="container">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {physioServices.map((service) => (

@@ -12,7 +12,7 @@ export function PageHeader({ title, subtitle, description, breadcrumbs }: PageHe
   return (
     <>
       {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-      <div className="bg-white py-6 lg:py-8 border-b border-border/30">
+      <div className="bg-white py-5 lg:py-7 border-b border-border/30">
         <div className="container text-center">
           <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-dark mb-3">
             {title}
