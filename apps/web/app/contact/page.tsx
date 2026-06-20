@@ -24,7 +24,7 @@ export default function ContactPage() {
           ]}
         />
         
-        <section className="section-padding bg-section-alt-bg">
+        <section className="section-padding-sm bg-section-alt-bg">
           <div className="container">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
               
@@ -60,7 +60,7 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-heading font-bold text-text-dark mb-1">Email</h3>
                       <p className="text-text-body">
-                        <a href="mailto:info@healdoor.com" className="hover:text-teal transition-colors">info@healdoor.com</a>
+                        <a href="mailto:ukmlamrcp@gmail.com" className="hover:text-teal transition-colors">ukmlamrcp@gmail.com</a>
                       </p>
                       <p className="text-text-muted text-sm mt-1">We&apos;ll reply within 24 hrs</p>
                     </div>
@@ -73,8 +73,8 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-heading font-bold text-text-dark mb-1">Office Location</h3>
                       <p className="text-text-body leading-relaxed">
-                        123 Healthcare Avenue, Pitampura<br />
-                        New Delhi, Delhi 110034<br />
+                        160, Rajdhani Enclave, Parking <br />
+                        Pitampura, Delhi 110034<br />
                         India
                       </p>
                     </div>
