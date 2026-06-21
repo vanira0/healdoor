@@ -57,7 +57,7 @@ export default async function Home() {
   return (
     <>
       <Navbar />
-      <ServiceNavTabs />
+      {/* <ServiceNavTabs /> */}
       <main className="flex-1">
         <HeroCarousel slides={homepage?.heroSlides} />
         <HealthcareIntro

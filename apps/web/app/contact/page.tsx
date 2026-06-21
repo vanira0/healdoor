@@ -1,30 +1,41 @@
 import { Metadata } from 'next'
+import { getPageBySlug } from '@healdoor/utils'
 import { Navbar } from '@/components/Navbar'
 import { ServiceNavTabs } from '@/components/ServiceNavTabs';
 import { Footer } from '@/components/Footer'
+import { PageRenderer } from '@/components/renderer/PageRenderer'
 import { PageHeader } from '@/components/PageHeader'
 import { EnquiryForm } from '@/components/EnquiryForm'
 import { MapPin, Phone, Mail } from 'lucide-react'
 
-export const metadata: Metadata = {
-  title: 'Contact Us | HealDoor',
-  description: 'Get in touch with HealDoor for healthcare services, inquiries, or support.',
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPageBySlug('contact')
+  return {
+    title: page?.seo?.meta_title || page?.title || 'Contact Us | HealDoor',
+    description: page?.seo?.meta_description || 'Get in touch with HealDoor for healthcare services, inquiries, or support.',
+  }
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const page = await getPageBySlug('contact')
+
   return (
     <>
       <Navbar />
       <ServiceNavTabs />
       <main className="flex-1">
-        <PageHeader 
-          title="Contact Us" 
-          description="We're here to help with all your healthcare needs"
-          breadcrumbs={[
-            { label: 'Home', href: '/' },
-            { label: 'Contact', href: '/contact' }
-          ]}
-        />
+        {page ? (
+          <PageRenderer blocks={page.page_builder ?? []} />
+        ) : (
+          <>
+            <PageHeader 
+              title="Contact Us" 
+              description="We're here to help with all your healthcare needs"
+              breadcrumbs={[
+                { label: 'Home', href: '/' },
+                { label: 'Contact', href: '/contact' }
+              ]}
+            />
         
         <section className="section-padding-sm bg-section-alt-bg">
           <div className="container">
@@ -109,6 +120,8 @@ export default function ContactPage() {
             </div>
           </div>
         </section>
+          </>
+        )}
       </main>
       <Footer />
     </>

@@ -6,8 +6,12 @@ import { Footer } from '@/components/Footer'
 import { PageRenderer } from '@/components/renderer/PageRenderer'
 import { PageHeader } from '@/components/PageHeader'
 
-export const metadata: Metadata = {
-  title: 'End User Agreement | HealDoor',
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPageBySlug('end-user-agreement')
+  return {
+    title: page?.seo?.meta_title || page?.title || 'End User Agreement | HealDoor',
+    description: page?.seo?.meta_description || 'End User Agreement for HealDoor services.',
+  }
 }
 
 export default async function EULAPage() {

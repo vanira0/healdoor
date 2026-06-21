@@ -7,9 +7,12 @@ import { PageRenderer } from '@/components/renderer/PageRenderer'
 import { PageHeader } from '@/components/PageHeader'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
-  title: 'About Us | HealDoor',
-  description: 'Learn more about HealDoor and our mission to provide quality healthcare at home.',
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPageBySlug('about')
+  return {
+    title: page?.seo?.meta_title || page?.title || 'About Us | HealDoor',
+    description: page?.seo?.meta_description || 'Learn more about HealDoor and our mission to provide quality healthcare at home.',
+  }
 }
 
 export default async function AboutPage() {

@@ -6,8 +6,12 @@ import { Footer } from '@/components/Footer'
 import { PageRenderer } from '@/components/renderer/PageRenderer'
 import { PageHeader } from '@/components/PageHeader'
 
-export const metadata: Metadata = {
-  title: 'Terms and Conditions | HealDoor',
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPageBySlug('terms-and-conditions')
+  return {
+    title: page?.seo?.meta_title || page?.title || 'Terms and Conditions | HealDoor',
+    description: page?.seo?.meta_description || 'Terms and Conditions for HealDoor services.',
+  }
 }
 
 export default async function TermsPage() {

@@ -6,8 +6,12 @@ import { Footer } from '@/components/Footer'
 import { PageRenderer } from '@/components/renderer/PageRenderer'
 import { PageHeader } from '@/components/PageHeader'
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy | HealDoor',
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPageBySlug('privacy-policy')
+  return {
+    title: page?.seo?.meta_title || page?.title || 'Privacy Policy | HealDoor',
+    description: page?.seo?.meta_description || 'Privacy Policy for HealDoor services.',
+  }
 }
 
 export default async function PrivacyPolicyPage() {
