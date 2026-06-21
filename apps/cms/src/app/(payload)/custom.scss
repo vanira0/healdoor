@@ -1,0 +1,78 @@
+@layer base {
+  :root {
+    --brand-primary: #269DA5;
+    --brand-secondary: #F29C24;
+    --brand-tertiary: #5cb5ba;
+  }
+}
+
+/* Payload CMS Brand Overrides */
+
+html[data-theme="light"],
+html[data-theme="dark"] {
+  /* Override default Primary buttons */
+  .btn.btn--style-primary {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: white;
+
+    &:hover,
+    &:focus {
+      background-color: var(--brand-tertiary);
+      border-color: var(--brand-tertiary);
+      color: white;
+    }
+  }
+
+  /* Override secondary buttons or specific states */
+  .btn.btn--style-secondary {
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+
+    &:hover,
+    &:focus {
+      background-color: var(--brand-primary);
+      color: white;
+    }
+  }
+
+  /* Sidebar Active Links */
+  .nav__link--active {
+    color: var(--brand-primary) !important;
+    font-weight: 600;
+  }
+  
+  .nav-group__toggle--active {
+    color: var(--brand-primary) !important;
+  }
+
+  /* Focus Rings and Input Borders */
+  .field-type input:focus,
+  .field-type textarea:focus,
+  .react-select__control--is-focused {
+    border-color: var(--brand-primary) !important;
+    box-shadow: 0 0 0 1px var(--brand-primary) !important;
+  }
+
+  /* Breadcrumbs & Links */
+  a {
+    color: var(--brand-primary);
+    
+    &:hover {
+      color: var(--brand-tertiary);
+    }
+  }
+
+  /* Keep table headers default but maybe brand primary on specific links */
+  .table {
+    a {
+      color: inherit;
+    }
+  }
+
+  /* Ensure text on badges / indicators uses the secondary color for warnings if needed */
+  .pill--style-warning {
+    background-color: var(--brand-secondary);
+    color: white;
+  }
+}
