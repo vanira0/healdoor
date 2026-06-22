@@ -17,7 +17,7 @@ export const Products: CollectionConfig = {
           const id = req.routeParams?.id as string;
           if (!id) return Response.json({ error: 'Missing ID' }, { status: 400 });
 
-          const body = typeof req.json === 'function' ? await req.json() : {};
+          const body = typeof req.json === 'function' ? await (req.json as () => Promise<any>)() : {};
           const vote = Number(body.vote);
           if (!vote || vote < 1 || vote > 5) {
             return Response.json({ error: 'Invalid vote' }, { status: 400 });
