@@ -95,12 +95,7 @@ export function Navbar() {
       <div className="container flex h-16 items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center shrink-0">
-          <Logo
-            width={160}
-            height={60}
-            className="w-auto h-12"
-            priority
-          />
+          <Logo width={160} height={60} className="w-auto h-12" priority />
         </Link>
 
         {/* Desktop Navigation */}
@@ -108,18 +103,18 @@ export function Navbar() {
           <DropdownMenu
             label="Services"
             items={servicesDropdown}
-            isOpen={openDropdown === "services"}
+            isOpen={openDropdown === 'services'}
             onToggle={() =>
-              setOpenDropdown(openDropdown === "services" ? null : "services")
+              setOpenDropdown(openDropdown === 'services' ? null : 'services')
             }
           />
           <DropdownMenu
             label="Equipments"
             items={equipmentsDropdown}
-            isOpen={openDropdown === "equipments"}
+            isOpen={openDropdown === 'equipments'}
             onToggle={() =>
               setOpenDropdown(
-                openDropdown === "equipments" ? null : "equipments",
+                openDropdown === 'equipments' ? null : 'equipments',
               )
             }
           />
@@ -156,7 +151,7 @@ export function Navbar() {
           </button>
 
           <a
-            href="tel:+919871281574"
+            href={`tel:${process.env.NEXT_PUBLIC_CONTACT_PHONE || '+919871281574'}`}
             className="inline-flex h-9 items-center gap-2 rounded-full bg-orange px-4 text-sm font-semibold text-white shadow-md hover:bg-orange-hover transition-colors"
           >
             <PhoneCall className="h-4 w-4" />
@@ -229,5 +224,5 @@ export function Navbar() {
         </div>
       )}
     </nav>
-  );
+  )
 }

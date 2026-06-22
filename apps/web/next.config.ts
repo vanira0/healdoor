@@ -4,13 +4,28 @@ const nextConfig: NextConfig = {
   images: {
     // Allow images from public directory (default) and any external sources if needed later
     unoptimized: false,
-    dangerouslyAllowLocalIP: true,  // TODO: remove in production
+    dangerouslyAllowLocalIP: true, // TODO: remove in production
     remotePatterns: [
       {
         protocol: 'http',
         hostname: 'localhost',
         port: '3001',
         pathname: '/api/media/file/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'healdoor-web.vercel.app',
+        pathname: '/api/media/file/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'healdoor-cms.vercel.app',
+        pathname: '/api/media/file/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'healdoor-npr-assets.s3.ap-south-1.amazonaws.com',
+        pathname: '/**',
       },
       {
         protocol: 'https',
@@ -25,6 +40,6 @@ const nextConfig: NextConfig = {
     ],
   },
   transpilePackages: ['@healdoor/types', '@healdoor/utils', '@healdoor/ui'],
-};
+}
 
 export default nextConfig;

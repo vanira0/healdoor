@@ -56,7 +56,7 @@ const socialLinks = [
   },
   {
     icon: MessageCircle,
-    href: "https://wa.me/919871281574",
+    href={`tel:${process.env.NEXT_PUBLIC_CONTACT_PHONE || "+919871281574"}`}
     label: "WhatsApp",
   },
   { icon: YoutubeIcon, href: "https://youtube.com/@healdoor", label: "YouTube" },
