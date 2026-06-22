@@ -59,6 +59,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+    push: process.env.PAYLOAD_DB_PUSH === 'true' ? true : undefined,
   }),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sharp: sharp as any,
