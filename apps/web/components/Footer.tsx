@@ -56,7 +56,7 @@ const socialLinks = [
   },
   {
     icon: MessageCircle,
-    href={`tel:${process.env.NEXT_PUBLIC_CONTACT_PHONE || "+919871281574"}`}
+    href: `https://wa.me/${process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || "9871281574"}`,
     label: "WhatsApp",
   },
   { icon: YoutubeIcon, href: "https://youtube.com/@healdoor", label: "YouTube" },
@@ -151,7 +151,7 @@ export function Footer() {
                 <Phone className="h-4 w-4 text-teal shrink-0" />
                 <div className="flex flex-col text-sm text-slate-600 font-medium">
                   <a
-                    href="tel:+919871281574"
+                    href={`tel:${process.env.NEXT_PUBLIC_CONTACT_PHONE || "+919871281574"}`}
                     className="hover:text-teal transition-colors"
                   >
                     +91-9871281574
