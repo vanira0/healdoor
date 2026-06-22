@@ -87,12 +87,12 @@ export function ServiceCards() {
                 </Button>
                 <div className="grid grid-cols-2 gap-3 w-full">
                   <Button variant="outline" className="w-full text-xs" asChild>
-                    <a href="tel:+919871281574">
+                    <a href={`tel:${process.env.NEXT_PUBLIC_CONTACT_PHONE || "+919871281574"}`}>
                       <Phone className="mr-2 h-3 w-3" /> Call
                     </a>
                   </Button>
                   <Button variant="outline" className="w-full text-xs text-green-600 border-green-200 hover:bg-green-50" asChild>
-                    <a href={`https://wa.me/919871281574?text=Hi, I want to enquire about ${service.title}`} target="_blank" rel="noreferrer">
+                    <a href={`https://wa.me/${process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || "919871281574"}?text=Hi, I want to enquire about ${service.title}`} target="_blank" rel="noreferrer">
                       <MessageSquare className="mr-2 h-3 w-3" /> WhatsApp
                     </a>
                   </Button>

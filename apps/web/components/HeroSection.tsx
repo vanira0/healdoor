@@ -19,7 +19,7 @@ export function HeroSection() {
             </Link>
           </Button>
           <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white gap-2 border-0 w-full sm:w-auto" asChild>
-            <a href="https://wa.me/919871281574" target="_blank" rel="noreferrer">
+            <a href={`https://wa.me/${process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || "919871281574"}`} target="_blank" rel="noreferrer">
               <MessageSquare className="h-4 w-4" /> WhatsApp Us
             </a>
           </Button>
