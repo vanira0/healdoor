@@ -41,7 +41,7 @@ const serviceTabs = [
   },
   {
     title: "Other Medical Equipments",
-    href: "/other-medical-equipments",
+    href: "/products",
     icon: Stethoscope,
   },
 ];
